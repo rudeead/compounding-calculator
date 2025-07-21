@@ -128,14 +128,10 @@
 
       document.getElementById('results').innerHTML = `
         <strong>Estimate Monthly Installment:</strong> RM ${installment.toFixed(2)}<br>
-        
         <strong>Estimate Total Payment Over Tenure:</strong> RM ${totalPayment.toFixed(2)}<br>
-        
         <strong>Estimate Future Value of Investment:</strong> RM ${futureValue.toFixed(2)}<br>
-        
         <strong>Estimate Net Gain/Loss:</strong> RM ${net.toFixed(2)}
-
-        These are the projected Installment / Total Payment / Future Value & Net Gain over time.
+        <strong>These are the projected Installment / Total Payment / Future Value & Net Gain over time.
       `;
 
       const years = Array.from({ length: n + 1 }, (_, i) => i);
