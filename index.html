@@ -17,6 +17,7 @@
       align-items: center;
       min-height: 100vh;
     }
+
     .container {
       background: #1e1e1e;
       padding: 30px 40px;
@@ -25,17 +26,20 @@
       max-width: 650px;
       width: 100%;
     }
+
     h1 {
       text-align: center;
       color: #ffffff;
       margin-bottom: 20px;
     }
+
     label {
       display: block;
       margin-top: 15px;
       font-weight: 600;
       color: #dddddd;
     }
+
     input {
       width: 100%;
       padding: 10px;
@@ -46,6 +50,7 @@
       background: #2a2a2a;
       color: #fff;
     }
+
     button {
       margin-top: 20px;
       width: 100%;
@@ -58,9 +63,11 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #0056b3;
     }
+
     .output {
       margin-top: 25px;
       background: #2b2b2b;
@@ -68,15 +75,18 @@
       border-radius: 8px;
       border: 1px solid #444;
     }
+
     .output strong {
       color: #ffffff;
     }
+
     canvas {
       margin-top: 30px;
       background: #1a1a1a;
       border-radius: 10px;
       padding: 10px;
     }
+
     .chart-description {
       margin-top: 15px;
       font-size: 14px;
@@ -89,22 +99,29 @@
   <div class="container">
     <h1>ASB Financing Compounding Effect</h1>
 
-    <label>Financing Amount):
+    <!-- Input Fields -->
+    <label>Financing Amount:
       <input type="number" id="loanAmount" value="100000" />
     </label>
+
     <label>Financing Rate (% p.a.):
       <input type="number" id="loanRate" value="4.05" step="0.01" />
     </label>
+
     <label>Tenure (Years):
       <input type="number" id="tenure" value="20" />
     </label>
-    <label>ROI Based On 2015-2024 ASB Dividend (% p.a.):
+
+    <label>ROI Based on 2015–2024 ASB Dividend (% p.a.):
       <input type="number" id="returnRate" value="6.12" step="0.01" />
     </label>
 
     <button onclick="calculate()">Calculate</button>
 
+    <!-- Output Area -->
     <div class="output" id="results"></div>
+
+    <!-- Chart -->
     <canvas id="comparisonChart" width="400" height="250"></canvas>
     <div class="chart-description">
       This chart compares the cumulative financing payments against the projected investment growth over time.
@@ -121,25 +138,28 @@
       const n = parseInt(document.getElementById('tenure').value);
       const months = n * 12;
 
+      // Calculate values
       const installment = (P * rLoan) / (1 - Math.pow(1 + rLoan, -months));
       const totalPayment = installment * months;
       const futureValue = P * Math.pow((1 + rReturn), n);
       const net = futureValue - totalPayment;
 
+      // Display output
       document.getElementById('results').innerHTML = `
         <strong>Estimate Monthly Installment:</strong> RM ${installment.toFixed(2)}<br>
         <strong>Estimate Total Payment Over Tenure:</strong> RM ${totalPayment.toFixed(2)}<br>
         <strong>Estimate Future Value of Investment:</strong> RM ${futureValue.toFixed(2)}<br>
-        <strong>Estimate Net Gain/Loss:</strong> RM ${net.toFixed(2)}
-        <strong>These are the projected Installment / Total Payment / Future Value & Net Gain over time.
+        <strong>Estimate Net Gain/Loss:</strong> RM ${net.toFixed(2)}<br>
+        <strong>These are the projected Installment / Total Payment / Future Value & Net Gain over time.</strong>
       `;
 
+      // Prepare data for chart
       const years = Array.from({ length: n + 1 }, (_, i) => i);
       const loanProgress = years.map(y => installment * 12 * y);
       const investmentProgress = years.map(y => P * Math.pow(1 + rReturn, y));
 
+      // Render chart
       const ctx = document.getElementById('comparisonChart').getContext('2d');
-
       if (chartInstance) chartInstance.destroy();
 
       chartInstance = new Chart(ctx, {
@@ -169,9 +189,7 @@
           responsive: true,
           plugins: {
             legend: {
-              labels: {
-                color: '#ffffff'
-              }
+              labels: { color: '#ffffff' }
             }
           },
           scales: {
